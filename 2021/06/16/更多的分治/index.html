@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>更多的分治 - Hexo</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="引入什么是分治？
+口胡！
+二维偏序问题给定多个二元组 $(x_{i},y_{i})$，求满足 $x_{i}&amp;lt;x_{j}$，且 $y_{i}&amp;lt;y_{j}$ 的组数。
+说白了就是求逆序对，
+,"> 
+    <meta name="author" content="John Doe"> 
+    <link rel="alternative" href="atom.xml" title="Hexo" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Hexo</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://example.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">更多的分治</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">更多的分治</h1>
+        <div class="stuff">
+            <span>六月 16, 2021</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E5%88%86%E6%B2%BB/" rel="tag">分治</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h1 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h1><p>什么是分治？</p>
+<p>口胡！</p>
+<h3 id="二维偏序问题"><a href="#二维偏序问题" class="headerlink" title="二维偏序问题"></a>二维偏序问题</h3><p>给定多个二元组 $(x_{i},y_{i})$，求满足 $x_{i}&lt;x_{j}$，且 $y_{i}&lt;y_{j}$ 的组数。</p>
+<p>说白了就是求<strong>逆序对</strong>，</p>
+<p>那么我们现在选择一名幸运观众说说怎么写归并排序。<del>（树 状 数 组）</del></p>
+<p>$\large \color{grey}\text{改名器已经更新，现在再也不会有漏网之鱼了！（话说上个版本有个bug，用了一个月都没出来…）}$</p>
+<p>$\color{grey}\text{恰恰说明了点名器不行吧…}$</p>
+<h1 id="正题"><a href="#正题" class="headerlink" title="正题"></a>正题</h1><h2 id="CDQ分治"><a href="#CDQ分治" class="headerlink" title="CDQ分治"></a>CDQ分治</h2><h3 id="三维偏序"><a href="#三维偏序" class="headerlink" title="三维偏序"></a>三维偏序</h3><p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3810">P3810 【模板】三维偏序（陌上花开）</a></p>
+<p>给定多个二元组 $(x_{i},y_{i},z_{i})$，对于每个 $i$ ，$f(i)=$满足 $x_{i}&gt;x_{j},y_{i}&gt;y_{j}$，且 $z_{i}&gt;z_{j}$ 的 $j$ 的数量。</p>
+<p>对于 $d \in [0,n)$，求 $f(i)=d$的 $i$ 的数量。</p>
+<p>这个时候就需要我们用到 CDQ 分治了。</p>
+<p>那么 CDQ 是什么？</p>
+<p>CDQ，指陈丹琪（国家集训队队员）。</p>
+<p>简而言之就是个大佬，然后大佬的算法广为流传，就叫这个名字了。</p>
+<p>以后可能会有 $0-dp$ （逃</p>
+<p>好，我们现在已经有解决二维偏序的经验了，那么…</p>
+<p>我们先按每个元素的属性 $a$ 排个序，然后第二维用归并排序，第三维用树状数组。</p>
+<p>我们在归并的时候考虑 $[l,mid]$ 对 $[mid+1,r]$ 的贡献。因为我们已经按属性 $a$ 排过序了，所以在排序属性 $b$ 的时候，无论属性 $a$ 怎么被打乱，$[mid+1,r]$ 所有元素的属性 $a$ 一定不小于 $[l,mid]$ 中所有元素的属性$a$，所以第二维是成立的。</p>
+<p>在满足前两维都是有序的时候，类似二维偏序的解法，我们可以用树状数组来统计答案了。</p>
+<h3 id="四维偏序？？？"><a href="#四维偏序？？？" class="headerlink" title="四维偏序？？？"></a>四维偏序？？？</h3><p>我们先从一个 CDQ 开始，那么第一维采用 CDQ，第二维照样使用归并排序，至于最后的统计就变为了一个二元组 $(c_i,d_i)$ 的统计，对于这个问题，我们可以采用树套树的方式解决。</p>
+<p>​                                                                    $\color{red}\huge{树套树！！！}$</p>
+<p>傻孩子，快跑！</p>
+<p>让我们回到三维偏序中，在偏序过程中，我们实际上是进行了对于三元组 $(L,b,c)$ 与 $(R,b,c)$ 进行了处理，其中，一个三元组能对另一个三元组做出贡献，当且仅当 $L$ 中的 $b$ 小于 $R$ 中的 $b$ ，$c$ 同理。于是四维偏序中也存在四元组 $(L,b,c,d)$ 和 $(R,b,c,d)$，于是我们先将 $a$ 标记（是左区间还是右区间），再将 $b$ 进行排序，这样以后 $a$ 便是无序的，但我们已经将 $a$ 标记，而且由三维偏序得 $L$ 对 $R$ 做出贡献，所以我们的三元组变为了 $(L,L/R,c,d)$ 和 $(R,L/R,c,d)$，其中只有 $(L,L,c,d)$ 对 $(R,R,c,d)$ 做出贡献，于是现在将 $c,d$ 按照三维偏序过程进行处理即可。</p>
+<h3 id="更高维的偏序？"><a href="#更高维的偏序？" class="headerlink" title="更高维的偏序？"></a>更高维的偏序？</h3><p>这边建议您使用 bitset 或者 KD-tree 呢~</p>
+<p>cdq时间复杂度 $O(nlog^kn)$</p>
+<p>bitset时间复杂度 $O(kn\sqrt{n})$</p>
+<p>硬套也行，套呗。</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>
