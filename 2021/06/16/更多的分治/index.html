@@ -61,8 +61,9 @@
 <h3 id="二维偏序问题"><a href="#二维偏序问题" class="headerlink" title="二维偏序问题"></a>二维偏序问题</h3><p>给定多个二元组 $(x_{i},y_{i})$，求满足 $x_{i}&lt;x_{j}$，且 $y_{i}&lt;y_{j}$ 的组数。</p>
 <p>说白了就是求<strong>逆序对</strong>，</p>
 <p>那么我们现在选择一名幸运观众说说怎么写归并排序。<del>（树 状 数 组）</del></p>
-<p>$\large \color{grey}\text{改名器已经更新，现在再也不会有漏网之鱼了！（话说上个版本有个bug，用了一个月都没出来…）}$</p>
-<p>$\color{grey}\text{恰恰说明了点名器不行吧…}$</p>
+<p>改名器已经更新，现在再也不会有漏网之鱼了！（话说上个版本有个bug，用了一个月都没出来…）</p>
+<p><del>恰恰说明了点名器不行吧…</del></p>
+<p><del>UPD:用EGE做的点名器也来辣！（粗糙的不行）</del></p>
 <h1 id="正题"><a href="#正题" class="headerlink" title="正题"></a>正题</h1><h2 id="CDQ分治"><a href="#CDQ分治" class="headerlink" title="CDQ分治"></a>CDQ分治</h2><h3 id="三维偏序"><a href="#三维偏序" class="headerlink" title="三维偏序"></a>三维偏序</h3><p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3810">P3810 【模板】三维偏序（陌上花开）</a></p>
 <p>给定多个二元组 $(x_{i},y_{i},z_{i})$，对于每个 $i$ ，$f(i)=$满足 $x_{i}&gt;x_{j},y_{i}&gt;y_{j}$，且 $z_{i}&gt;z_{j}$ 的 $j$ 的数量。</p>
 <p>对于 $d \in [0,n)$，求 $f(i)=d$的 $i$ 的数量。</p>
@@ -76,13 +77,27 @@
 <p>我们在归并的时候考虑 $[l,mid]$ 对 $[mid+1,r]$ 的贡献。因为我们已经按属性 $a$ 排过序了，所以在排序属性 $b$ 的时候，无论属性 $a$ 怎么被打乱，$[mid+1,r]$ 所有元素的属性 $a$ 一定不小于 $[l,mid]$ 中所有元素的属性$a$，所以第二维是成立的。</p>
 <p>在满足前两维都是有序的时候，类似二维偏序的解法，我们可以用树状数组来统计答案了。</p>
 <h3 id="四维偏序？？？"><a href="#四维偏序？？？" class="headerlink" title="四维偏序？？？"></a>四维偏序？？？</h3><p>我们先从一个 CDQ 开始，那么第一维采用 CDQ，第二维照样使用归并排序，至于最后的统计就变为了一个二元组 $(c_i,d_i)$ 的统计，对于这个问题，我们可以采用树套树的方式解决。</p>
-<p>​                                                                    $\color{red}\huge{树套树！！！}$</p>
+<p>​                                                                             <strong>树套树！！！</strong></p>
 <p>傻孩子，快跑！</p>
 <p>让我们回到三维偏序中，在偏序过程中，我们实际上是进行了对于三元组 $(L,b,c)$ 与 $(R,b,c)$ 进行了处理，其中，一个三元组能对另一个三元组做出贡献，当且仅当 $L$ 中的 $b$ 小于 $R$ 中的 $b$ ，$c$ 同理。于是四维偏序中也存在四元组 $(L,b,c,d)$ 和 $(R,b,c,d)$，于是我们先将 $a$ 标记（是左区间还是右区间），再将 $b$ 进行排序，这样以后 $a$ 便是无序的，但我们已经将 $a$ 标记，而且由三维偏序得 $L$ 对 $R$ 做出贡献，所以我们的三元组变为了 $(L,L/R,c,d)$ 和 $(R,L/R,c,d)$，其中只有 $(L,L,c,d)$ 对 $(R,R,c,d)$ 做出贡献，于是现在将 $c,d$ 按照三维偏序过程进行处理即可。</p>
 <h3 id="更高维的偏序？"><a href="#更高维的偏序？" class="headerlink" title="更高维的偏序？"></a>更高维的偏序？</h3><p>这边建议您使用 bitset 或者 KD-tree 呢~</p>
 <p>cdq时间复杂度 $O(nlog^kn)$</p>
 <p>bitset时间复杂度 $O(kn\sqrt{n})$</p>
-<p>硬套也行，套呗。</p>
+<p>KD-tree时间复杂度 $O(n^{1-\frac{1}{k}}+m)$（来源于网络）</p>
+<p>硬套也行，炸了不行。</p>
+<h2 id="整体二分"><a href="#整体二分" class="headerlink" title="整体二分"></a>整体二分</h2><p>先考虑一个问题：</p>
+<p>给定一个数列，查询<strong>一次</strong>第 $K$ 小的值。</p>
+<p>解法一：直接排序，然后找下标为 $K$ 的数。</p>
+<p>解法二：用一颗权值线段树，插进去后二分进行查找。</p>
+<p>我们把这个问题升级一下：给定一个数列，查询多次第 $K$ 小的值。</p>
+<p>解法一未受到太大影响，但是解法二如果多次询问直接挂掉，这时候就需要整体二分了！</p>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>回到二分查找的本质，我们每次猜测一个数 $mid$，随后如果猜大了往前，猜小了往后，那么我们可以猜测所有的数都是 $mid$，如果 $mid$ 小于 $K$，直接搞到右区间，同时将 $K-=sum_{left}$，如果大于等于 $K$，我们直接拉到左区间，如果最后$l==r$，那么结束这个部分的二分。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> r, vector&lt;Query&gt; q)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> m = (l + r) / <span class="number">2</span>;</span><br><span class="line">  <span class="keyword">if</span> (l == r) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">unsigned</span> i = <span class="number">0</span>; i &lt; q.<span class="built_in">size</span>(); i++) ans[q[i].id] = l;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  vector&lt;<span class="keyword">int</span>&gt; q1, q2;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">unsigned</span> i = <span class="number">0</span>; i &lt; q.<span class="built_in">size</span>(); i++)</span><br><span class="line">    <span class="keyword">if</span> (q[i].k &lt;= <span class="built_in">check</span>(m))</span><br><span class="line">      q1.<span class="built_in">push_back</span>(q[i]);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      q[i].k -= <span class="built_in">check</span>(m), q2.<span class="built_in">push_back</span>(q[i]);</span><br><span class="line">  <span class="built_in">solve</span>(l, m, q1), <span class="built_in">solve</span>(m + <span class="number">1</span>, r, q2);</span><br><span class="line">  <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么我们的复杂度就变成了 $O(Tlogn)$。（$T$ 为对应的查询的操作时间复杂度）</p>
+<p>再变一变：询问变为查询 $[l,r]$ 中第 $K$ 小的数。</p>
+<p>好的排序挂了，但是我们有数据结构啊！</p>
+<p>但是我们的整体二分也在 check 函数中出现了问题</p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
