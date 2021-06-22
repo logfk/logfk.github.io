@@ -18,7 +18,11 @@
     
 <link rel="stylesheet" href="/css/diaspora.css">
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
 
 <body class="loading">
     <span id="config-title" style="display:none">Absolute</span>
@@ -105,9 +109,11 @@
     <div id="post0">
         <p>六月 16, 2021</p>
         <h2><a href="/2021/06/16/%E6%9B%B4%E5%A4%9A%E7%9A%84%E5%88%86%E6%B2%BB/" title="更多的分治" class="posttitle">更多的分治</a></h2>
-        <p class="summary">引入什么是分治？
+        <p class="summary"> 引入
+什么是分治？
 口胡！
-二维偏序问题给定多个二元组 $(x_{i},y_{i})$，求满足 $x_{i}&lt;...</p>
+ 二维偏序问题
+给定多个二元组 (xi,yi)(x_{i},y_{i})(xi​,y...</p>
     </div>
     
 </div>
@@ -202,6 +208,25 @@
 </div>
 
 
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 
 
 
